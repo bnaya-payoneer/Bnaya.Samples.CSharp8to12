@@ -1,6 +1,5 @@
 using System.Text.Json;
 
-using FakeItEasy;
 using Xunit.Abstractions;
 
 namespace Tests;

@@ -1,7 +1,5 @@
 using System.Numerics;
 
-using FakeItEasy;
-
 using Xunit.Abstractions;
 
 namespace Tests;

@@ -1,4 +1,3 @@
-using FakeItEasy;
 using Xunit.Abstractions;
 
 namespace Tests;
@@ -44,7 +43,7 @@ public class PatternMatchingExpressionTests
         {
             [_, "DEPOSIT", _, var amount] => amount.ToDecimal(),
             [_, "WITHDRAWAL", .., var amount] => amount.ToDecimal(),
-            [_, "FEE", var amount,..] => amount.ToDecimal(),
+            [_, "FEE", var amount, ..] => amount.ToDecimal(),
             _ => throw new InvalidOperationException()
         };
 

@@ -1,7 +1,7 @@
-using FakeItEasy;
-using System.Diagnostics;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
+
+using FakeItEasy;
+
 using Xunit.Abstractions;
 
 namespace Tests;

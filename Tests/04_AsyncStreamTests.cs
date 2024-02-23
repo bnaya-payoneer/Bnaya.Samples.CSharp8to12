@@ -1,7 +1,8 @@
-using FakeItEasy;
-using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+
+using FakeItEasy;
+
 using Xunit.Abstractions;
 
 namespace Tests;
@@ -57,7 +58,7 @@ public class AsyncStreamTests
 
     #region TimeManagement
 
-    sealed record TimeManagement: IAsyncDisposable
+    sealed record TimeManagement : IAsyncDisposable
     {
         private readonly Task _triggering;
 
@@ -95,7 +96,7 @@ public class AsyncStreamTests
         #region InitAsync
 
         private Task InitAsync(int expectedLength)
-        { 
+        {
             return Task.Run(async () =>
             {
                 await Sync.WaitAsync();
