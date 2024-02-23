@@ -35,7 +35,7 @@ public class AsyncStreamTests
     [Theory]
     [InlineData(100 * 3 + 50, 3)]
     [InlineData(100 * 5 + 50, 5)]
-    public async Task AsynStreamsest(int duration, int expectedLength)
+    public async Task AsynStreamsTest(int duration, int expectedLength)
     {
         _logger.WriteLine($"duration: {duration}");
         var stream = AsyncStreamExtensiosn.CreateAsyncStream();
