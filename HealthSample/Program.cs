@@ -14,12 +14,6 @@ var cfg = builder.Configuration;
 builder.Services.AddHealthChecks()
                 .AddSqlServer(cfg.GetConnectionString("SqlServerConnection")!)
                 .AddRedis(cfg.GetConnectionString("RedisConnection")!);
-builder.Services.AddHealthChecksUI(o =>
-                {    
-                    o.AddHealthCheckEndpoint("health api", "/health");    
-                })
-                .AddInMemoryStorage();
-
 
 var app = builder.Build();
 
@@ -27,9 +21,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions
                             { 
                                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse                                
                             });
-app.UseHealthChecksPrometheusExporter("/health-metrics");
-app.UseRouting()
-    .UseEndpoints(o => o.MapHealthChecksUI(o =>o.UIPath = "/health-ui"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
