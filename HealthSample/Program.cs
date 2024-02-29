@@ -10,22 +10,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var cfg = builder.Configuration;
 builder.Services.AddHealthChecks()
                 .AddSqlServer(
-                        builder.Configuration.GetConnectionString("SqlServerConnection")!,
+                        cfg.GetConnectionString("SqlServerConnection")!,
                         timeout: TimeSpan.FromSeconds(3),
                         tags: ["persist"],
                         name: "sql-server" )
                 .AddRedis(
-                        builder.Configuration.GetConnectionString("RedisConnection")!,
+                        cfg.GetConnectionString("RedisConnection")!,
                         timeout: TimeSpan.FromSeconds(3),
                         tags: ["persist", "cache"]);
-builder.Services.AddHealthChecksUI(opt =>
+builder.Services.AddHealthChecksUI(o =>
                 {
-                    opt.SetEvaluationTimeInSeconds(5); //time in seconds between check    
-                    opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks    
-                    //opt.SetApiMaxActiveRequests(1); //api requests concurrency    
-                    opt.AddHealthCheckEndpoint("health api", "/health"); //map health check api    
+                    o.SetEvaluationTimeInSeconds(5); //time in seconds between check    
+                    o.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks    
+                    //o.SetApiMaxActiveRequests(1); //api requests concurrency    
+                    o.AddHealthCheckEndpoint("health api", "/health"); //map health check api    
                 })
                 .AddInMemoryStorage();
 
@@ -38,8 +39,8 @@ app.MapHealthChecks("/health", new HealthCheckOptions
                             });
 app.UseHealthChecksPrometheusExporter("/health-metrics");
 app.UseRouting()
-    .UseEndpoints(cfg =>
-                   cfg.MapHealthChecksUI(o =>
+    .UseEndpoints(o =>
+                   o.MapHealthChecksUI(o =>
                    {
                        o.PageTitle = "Health Monitoring";
                        o.UIPath = "/health-ui";
