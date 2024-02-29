@@ -17,10 +17,7 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
-app.MapHealthChecks("/health", new HealthCheckOptions 
-                            { 
-                                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse                                
-                            });
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
