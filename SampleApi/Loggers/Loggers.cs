@@ -8,5 +8,5 @@ public static partial class Loggers
     [LoggerMessage(Level = LogLevel.Information, Message = "Sample Log")]
     public static partial void LogSample(
       this ILogger logger,
-      [LogProperties(OmitReferenceName = true, SkipNullProperties = true)]Person person);
+      [LogProperties(SkipNullProperties = true)]Person person);
 }

@@ -12,10 +12,3 @@ public static class DataTaxonomy
                         new(nameof(DataTaxonomy), nameof(PersonalData));
 }
 
-public static class DataClassifications
-{
-    public static DataClassificationSet Sensitive { get; } = new DataClassificationSet(DataTaxonomy.SensitiveData);
-
-    public static DataClassificationSet Personal { get; } = new DataClassificationSet(DataTaxonomy.PersonalData);
-}
-

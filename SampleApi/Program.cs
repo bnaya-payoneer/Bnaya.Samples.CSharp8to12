@@ -3,7 +3,6 @@ using System.Text.Json;
 
 using Bnaya.Samples;
 
-using Microsoft.Extensions.Compliance.Classification;
 using Microsoft.Extensions.Compliance.Redaction;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,18 +29,20 @@ builder.Logging
         };
     });
 
-builder.Services.AddRedaction(x =>
+builder.Services.AddRedaction(redactionBuilder =>
 {
     //  Enable the erasing redactor for sensitive data
-    x.SetRedactor<ErasingRedactor>(DataClassifications.Sensitive);
+    redactionBuilder.SetRedactor<ErasingRedactor>(DataClassifications.Sensitive);
 
-    x.SetHmacRedactor(hmacOpts =>
+    redactionBuilder.SetHmacRedactor(hmacOpts =>
     {
         // ⚠ Don't do this in a real project - you need to load these values
         // from an options secret!
-        hmacOpts.Key = "BLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAH"; 
+        hmacOpts.Key = "BLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAHBLAH";
         hmacOpts.KeyId = 123;
     }, DataClassifications.Personal);
+
+    redactionBuilder.SetFallbackRedactor<CustomReductor>();
 });
 
 var app = builder.Build();
