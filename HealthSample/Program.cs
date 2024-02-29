@@ -12,21 +12,11 @@ builder.Services.AddSwaggerGen();
 
 var cfg = builder.Configuration;
 builder.Services.AddHealthChecks()
-                .AddSqlServer(
-                        cfg.GetConnectionString("SqlServerConnection")!,
-                        timeout: TimeSpan.FromSeconds(3),
-                        tags: ["persist"],
-                        name: "sql-server" )
-                .AddRedis(
-                        cfg.GetConnectionString("RedisConnection")!,
-                        timeout: TimeSpan.FromSeconds(3),
-                        tags: ["persist", "cache"]);
+                .AddSqlServer(cfg.GetConnectionString("SqlServerConnection")!)
+                .AddRedis(cfg.GetConnectionString("RedisConnection")!);
 builder.Services.AddHealthChecksUI(o =>
-                {
-                    o.SetEvaluationTimeInSeconds(5); //time in seconds between check    
-                    o.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks    
-                    //o.SetApiMaxActiveRequests(1); //api requests concurrency    
-                    o.AddHealthCheckEndpoint("health api", "/health"); //map health check api    
+                {    
+                    o.AddHealthCheckEndpoint("health api", "/health");    
                 })
                 .AddInMemoryStorage();
 
@@ -39,13 +29,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
                             });
 app.UseHealthChecksPrometheusExporter("/health-metrics");
 app.UseRouting()
-    .UseEndpoints(o =>
-                   o.MapHealthChecksUI(o =>
-                   {
-                       o.PageTitle = "Health Monitoring";
-                       o.UIPath = "/health-ui";
-                       o.AsideMenuOpened = true;
-                   }));
+    .UseEndpoints(o => o.MapHealthChecksUI(o =>o.UIPath = "/health-ui"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
