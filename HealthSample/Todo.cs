@@ -1,0 +1,1 @@
+﻿public readonly record struct Todo (int Id, string TaskName, bool Completion);  
