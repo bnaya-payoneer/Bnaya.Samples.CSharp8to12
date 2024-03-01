@@ -1,0 +1,6 @@
+@HttpClientSample_HostAddress = http://localhost:5163
+
+GET {{HttpClientSample_HostAddress}}/demo/
+Accept: application/json
+
+###

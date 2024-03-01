@@ -40,14 +40,13 @@ public class TodoController : ControllerBase
     [ProducesResponseType<Todo>(201)]
     public async Task<IActionResult> PostAsync(Todo todo)
     {
-        var newTodo = await _connection.QueryFirstOrDefaultAsync<Todo>(
+        await _connection.ExecuteAsync(
                                            """
-                                           INSERT INTO Todos (TaskName, Completion)
-                                           VALUES (@TaskName, @Completion); 
-                                           SELECT * FROM Todos WHERE Id = SCOPE_IDENTITY();
-                                           """, 
-                                           todo); 
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = newTodo.Id }, newTodo);
+                                           INSERT INTO Todos (Id, TaskName, Completion)
+                                           VALUES (@Id, @TaskName, @Completion); 
+                                           """,
+                                           todo);
+        return Ok(todo);
     }
 
     [HttpPut("{id}")]
@@ -55,7 +54,7 @@ public class TodoController : ControllerBase
     public async Task<IActionResult> PutAsync(int id, Todo todo)
     {
         await _connection.ExecuteAsync(
-                       "UPDATE Todos SET TaskName = @TaskName, Completion = @Completion WHERE Id = @Id", 
+                       "UPDATE Todos SET TaskName = @TaskName, Completion = @Completion WHERE Id = @Id",
                                   new { Id = id, todo.TaskName, todo.Completion });
         return NoContent();
     }

@@ -26,7 +26,7 @@ public class MigrationJob: BackgroundService
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Todos')
             BEGIN
                 CREATE TABLE Todos (
-                    Id int IDENTITY(1,1) PRIMARY KEY,
+                    Id int PRIMARY KEY,
                     TaskName nvarchar(100),
                     Completion bit
                 )
