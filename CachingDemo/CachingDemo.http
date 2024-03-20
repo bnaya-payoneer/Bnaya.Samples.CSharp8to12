@@ -1,0 +1,6 @@
+@CachingDemo_HostAddress = http://localhost:5037
+
+GET {{CachingDemo_HostAddress}}/cached/distributed/
+Accept: application/json
+
+###
